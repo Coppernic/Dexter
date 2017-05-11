@@ -186,8 +186,9 @@ class CpcAndroidPlugin implements Plugin<Project> {
             return
         }
         // Generate version name and version code
+        println "Generate version name and version code"
         try {
-            GitUtils git = new GitUtils(Paths.get(project.projectDir.toString()))
+            GitUtils git = new GitUtils(Paths.get(project.rootProject.projectDir.toString()))
             project.ext.versionCode = git.versionCode
             project.ext.versionName = git.versionName
 
@@ -197,7 +198,7 @@ class CpcAndroidPlugin implements Plugin<Project> {
                 versionName git.versionName
             }
         } catch (RepositoryNotFoundException ignore) {
-            logger.info "$ignore"
+            println "$ignore"
             project.ext.versionCode = 1
             project.ext.versionName = "dev"
         }
