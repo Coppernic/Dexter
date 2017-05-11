@@ -1,16 +1,15 @@
 buildscript {
   repositories {
-    jcenter()
+	jcenter()
   }
   dependencies {
     classpath 'com.android.tools.build:gradle:2.3.0'
   }
 }
 
+apply plugin: 'cpcandroidplugin'
+
 allprojects {
-  repositories {
-    mavenCentral()
-  }
 
   apply plugin: 'checkstyle'
 
@@ -34,4 +33,18 @@ allprojects {
 
 task clean(type: Delete) {
   delete rootProject.buildDir
+}
+
+def dLint = hasProperty('disableLint')
+def dPreDex = hasProperty('disablePreDex')
+def artUser = hasProperty('artifactoryUser') ? artifactoryUser : ""
+def artPassword = hasProperty('artifactoryPassword') ? artifactoryPassword : ""
+
+options {
+  disableLint = dLint
+  disablePreDex = dPreDex
+  artifactoryUser = artUser
+  artifactoryPassword = artPassword
+  androidBuildToolVersion = "25.0.2"
+  androidCompileSdkVersion = 25
 }

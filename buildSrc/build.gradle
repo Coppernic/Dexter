@@ -1,0 +1,23 @@
+ repositories {
+        maven { url 'http://arti-01:8081/artifactory/libs-release'}
+        maven { url 'http://arti-01:8081/artifactory/plugins-release'}
+    }
+
+
+dependencies {
+    compile 'commons-io:commons-io:2.4'
+    compile group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '4.4.1.201607150455-r'
+    compile ('org.hidetake:groovy-ssh:2.7.0') {
+        // need to exclude groovy here otherwise there is a version conflict
+        exclude module: 'groovy-all'
+    }
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.gperfutils:gprof:0.3.1-groovy-2.4'
+    testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
+        // need to exclude groovy here otherwise there is a version conflict
+        exclude module: 'groovy-all'
+    }
+    testCompile 'org.hamcrest:hamcrest-library:1.3'
+}
+
