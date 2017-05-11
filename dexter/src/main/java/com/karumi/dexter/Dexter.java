@@ -49,12 +49,23 @@ public final class Dexter
   private PermissionRequestErrorListener errorListener = new EmptyPermissionRequestErrorListener();
   private boolean shouldExecuteOnSameThread = false;
 
+  @Deprecated
   private Dexter(Activity activity) {
     initialize(activity);
   }
 
+  @Deprecated
   public static DexterBuilder.Permission withActivity(Activity activity) {
     return new Dexter(activity);
+  }
+
+
+  private Dexter(Context context) {
+    initialize(context);
+  }
+
+  public static DexterBuilder.Permission withContext(Context context) {
+    return new Dexter(context);
   }
 
   @Override public DexterBuilder.SinglePermissionListener withPermission(String permission) {
