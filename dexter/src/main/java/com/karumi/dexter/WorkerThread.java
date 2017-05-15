@@ -24,7 +24,7 @@ import android.os.Looper;
  */
 final class WorkerThread implements Thread {
 
-  private final Handler handler;
+  private Handler handler;
   private boolean wasLooperNull = false;
 
   WorkerThread() {
@@ -37,6 +37,9 @@ final class WorkerThread implements Thread {
   }
 
   @Override public void execute(final Runnable runnable) {
+    if (!handler.getLooper().getThread().isAlive()) {
+      handler = new Handler();
+    }
     handler.post(runnable);
   }
 
