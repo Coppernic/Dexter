@@ -216,6 +216,10 @@ final class DexterInstance {
     if (context instanceof Application) {
       intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     }
+    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+    intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NO_USER_ACTION);
     context.startActivity(intent);
   }
 
