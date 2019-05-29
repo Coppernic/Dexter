@@ -1,5 +1,21 @@
+plugins {
+  id "fr.coppernic.versioning" version "3.1.2"
+}
+
 apply plugin: 'com.android.library'
-apply from: 'https://raw.github.com/chrisbanes/gradle-mvn-push/master/gradle-mvn-push.gradle'
+apply plugin: 'fr.coppernic.extensions'
+
+copper {
+  projectName = "Dexter"
+  projectGroup = "fr.coppernic.lib"
+
+  publications {
+    genSourcesForVariant = {true}
+    artiConfig = project.hasProperty('artiServer')?project.artiServer:"artifactory"
+  }
+}
+
+apply plugin: 'fr.coppernic.android'
 
 android {
   compileSdkVersion 28
@@ -7,8 +23,8 @@ android {
   defaultConfig {
     minSdkVersion 14
     targetSdkVersion 28
-    versionCode 1
-    versionName "1.0"
+    versionCode versioning.info.versionCode
+    versionName versioning.info.display
     consumerProguardFiles 'proguard-rules.pro'
     testInstrumentationRunner "android.test.InstrumentationTestRunner"
   }
