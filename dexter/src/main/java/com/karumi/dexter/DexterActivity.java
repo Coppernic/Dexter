@@ -22,6 +22,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.PermissionChecker;
 import android.view.WindowManager;
@@ -48,8 +49,9 @@ public final class DexterActivity extends Activity
     Dexter.onActivityReady(this);
   }
 
-  @Override public void onRequestPermissionsResult(int requestCode, String[] permissions,
-      int[] grantResults) {
+  @Override public void onRequestPermissionsResult(int requestCode,
+                                                   @NonNull String[] permissions,
+                                                   @NonNull int[] grantResults) {
     Collection<String> grantedPermissions = new LinkedList<>();
     Collection<String> deniedPermissions = new LinkedList<>();
 

@@ -54,6 +54,7 @@ final class DexterInstance {
   private final AtomicBoolean isRequestingPermission;
   private final AtomicBoolean rationaleAccepted;
   private final AtomicBoolean isShowingNativeDialog;
+  private final AtomicBoolean isPermissionResultReceived;
   private final Object pendingPermissionsMutex = new Object();
 
   private Activity activity;
@@ -68,6 +69,7 @@ final class DexterInstance {
     this.isRequestingPermission = new AtomicBoolean();
     this.rationaleAccepted = new AtomicBoolean();
     this.isShowingNativeDialog = new AtomicBoolean();
+    this.isPermissionResultReceived = new AtomicBoolean();
     setContext(context);
   }
 
@@ -118,6 +120,9 @@ final class DexterInstance {
       updatePermissionsAsDenied(permissionStates.getImpossibleToGrantPermissions());
       updatePermissionsAsGranted(permissionStates.getGrantedPermissions());
     }
+
+    // Reset permission result received flag for this request.
+    isPermissionResultReceived.set(false);
   }
 
   /**
@@ -125,6 +130,13 @@ final class DexterInstance {
    */
   void onActivityDestroyed() {
     isRequestingPermission.set(false);
+
+    // If Activity.onRequestPermissionsResult was not called, then simulate a permission request cancel for the
+    // client to be notified that permission request process has stopped.
+    if (!isPermissionResultReceived.get()) {
+      onCancelPermissionRequest();
+    }
+
     listener = EMPTY_LISTENER;
   }
 
@@ -261,6 +273,9 @@ final class DexterInstance {
   }
 
   private void onPermissionsChecked(Collection<String> permissions) {
+    // Set permission result received here because we want to detect that we go here even if pendingPermission is
+    // empty.
+    isPermissionResultReceived.set(true);
     if (pendingPermissions.isEmpty()) {
       return;
     }
