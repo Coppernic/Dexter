@@ -33,7 +33,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatcher;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Collections;
 
@@ -216,9 +216,9 @@ import static org.mockito.Mockito.when;
   private static ArgumentMatcher<PermissionGrantedResponse> getPermissionGrantedResponseMatcher(
       final String permission) {
     return new ArgumentMatcher<PermissionGrantedResponse>() {
-      @Override public boolean matches(Object argument) {
-        PermissionGrantedResponse response = (PermissionGrantedResponse) argument;
-        return permission.equals(response.getPermissionName());
+      @Override
+      public boolean matches(PermissionGrantedResponse argument) {
+        return permission.equals(argument.getPermissionName());
       }
     };
   }
@@ -226,8 +226,7 @@ import static org.mockito.Mockito.when;
   private static ArgumentMatcher<PermissionDeniedResponse> getPermissionDeniedResponseMatcher(
       final String permission, final boolean isPermanentlyDenied) {
     return new ArgumentMatcher<PermissionDeniedResponse>() {
-      @Override public boolean matches(Object argument) {
-        PermissionDeniedResponse response = (PermissionDeniedResponse) argument;
+      @Override public boolean matches(PermissionDeniedResponse response) {
         return permission.equals(response.getPermissionName())
             && response.isPermanentlyDenied() == isPermanentlyDenied;
       }
@@ -237,8 +236,7 @@ import static org.mockito.Mockito.when;
   private static ArgumentMatcher<PermissionRequest> getPermissionRequestShouldShowTokenMatcher(
       final String permission) {
     return new ArgumentMatcher<PermissionRequest>() {
-      @Override public boolean matches(Object argument) {
-        PermissionRequest request = (PermissionRequest) argument;
+      @Override public boolean matches(PermissionRequest request) {
         return permission.equals(request.getName());
       }
     };
